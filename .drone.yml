@@ -1,0 +1,21 @@
+kind: pipeline
+name: default
+
+steps:
+- name: build-and-publish
+  image: plugins/docker
+  settings:
+    registry: docker.io
+    repo: johndevs/rainloop
+    tags: 
+      - ${DRONE_TAG}
+      - latest
+    username:
+      from_secret: DOCKERHUB_USERNAME
+    password:
+      from_secret: DOCKERHUB_PASSWORD
+
+trigger:
+    ref:
+        include:
+        - refs/tags/**
